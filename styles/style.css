@@ -1,0 +1,39 @@
+body {
+    margin: 5%;
+    height: 80vh;
+    width: 85vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+    border: 2px solid red;
+    overflow-x: hidden;
+
+}
+
+#grid-game {
+    height: 68%;
+    aspect-ratio: 1/1;
+    border-radius: 3%;
+    background-color: rgba(137, 75, 8, 0.212);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-content: space-evenly;
+    
+}
+
+.cell {
+    width: 20%;
+    height: 20%;
+    background-color: lightgrey;
+    border: 2px solid black;
+    border-radius: 5%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 250%;
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 1px  black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
