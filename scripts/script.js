@@ -12,24 +12,32 @@ $(document).ready(function() {
 
 function addNewCell() {
     
-    // Generates two random integers representing a cell on the grid
-    let randomRow = parseInt(Math.random() * grid.length);
-    let randomColumn = parseInt(Math.random() * grid.length);
+    let randomCell; 
+    
+    do {
+        // Generates a number between 1 and 16 corresponding to random cell
+        let randomCellIndex = parseInt(Math.random() * 16)
+        randomCell = $(cellsArray[randomCellIndex]);
+    } while (randomCell.text() !== "");
 
-    // The cell in the grid is mapped to a unique div element in cellsArray
-    let randomCell = $(cellsArray[randomRow*grid.length +randomColumn]);
-
-    // A newly created cell either takes 2 or 4 as a value
+    // Adds either 2 or 4 into the cell
     let newCellValue = (Math.round((Math.random()))+1) * 2;
-
     randomCell.text(newCellValue);
-    
-    
-    
     }
 
 
-addNewCell();
+//addNewCell();
+
+$("#new-game").on("click", function() {
+
+    for (let i = 0; i < cellsArray.length; i++) {
+        let cell = $(cellsArray[i]);
+        cell.text("");
+    }
+
+    addNewCell();
+    addNewCell();
+})
 })
 
 
