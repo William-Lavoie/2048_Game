@@ -60,12 +60,25 @@ function addNewCell() {
     }
 
     randomCell.append(element);
+    element.addClass("visible");
+
 
     // Adds the value into the correct grid position 
     grid[randomRow][randomColumn] = newValue;
 }
 
-function leftShift() {
+/*
+function lateralShift(direction) {
+
+    let shift = 0;
+
+    if (direction == "right") {
+        shift = 1;
+    }
+
+    else {
+        shift = -1;
+    }
 
     // Loops through the grid 
     for (let i = 0; i < grid.length; i++) {
@@ -77,9 +90,9 @@ function leftShift() {
                 let shiftValue = 0;
                 let jValue = j;
 
-                while (grid[i][j-1] == "") {
+                while (grid[i][j + shift] == "") {
                     shiftValue++;
-                    j--;
+                    j += shift;
                 }
 
                 let cellValue = grid[i][jValue];
@@ -104,6 +117,7 @@ function leftShift() {
     addNewCell();
 }
 
+*/
 
 $("#new-game").on("click", function() {
 
@@ -130,21 +144,71 @@ $("#new-game").on("click", function() {
 })
 
 $(document).on("keydown", function(event) {
+
+    let lateralShift = 0;
+    let verticalShift = 0;
+
     switch (event.which) {
         case LEFT_ARROW:
-            leftShift();
+            lateralShift = -1;
             break;
+            
         case RIGHT_ARROW:
-            console.log("right");
+            lateralShift = 1;
             break;
+            
         case UP_ARROW:
-             console.log("up");
-             addNewCell();
+            verticalShift = -1;
             break;
+
         case DOWN_ARROW:
-            console.log("down");
-            break;
+            verticalShift = 1;  
+            break;         
     }
+
+      // Loops through the grid 
+      for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid.length; j++) {
+
+            // Checks if there is a value 
+            if (grid[i][j] != "") {
+
+                let shiftValue = 0;
+                let jValue = j;
+                let iValue = i;
+
+                while (i + verticalShift >= 0 && j + lateralShift >= 0  
+                       && i + verticalShift < grid.length && j + lateralShift < grid.length
+                       && grid[i + verticalShift][j + lateralShift] == "") {
+
+                    shiftValue++;
+                    i += verticalShift;
+                    j += lateralShift;
+                }
+
+                let cellValue = grid[iValue][jValue];
+
+                // Empties the current cell and inserts its value into the new position
+                grid[iValue][jValue] = "";
+                grid[i][j] = cellValue;
+
+
+                let oldCell = $(cellsArray[iValue*4 + jValue]);
+                let newCell = $(cellsArray[i*4 + j]);
+
+                let cellChild = $(oldCell).children().first();
+                newCell.append(cellChild);
+                j = jValue;
+                i= iValue;
+
+            }
+
+        } 
+    }
+
+    addNewCell();
+
+
 })
 })
 

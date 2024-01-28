@@ -87,5 +87,14 @@ header {
     justify-content: center;
     align-items: center;
     position: relative;
+    visibility: hidden;
+    opacity: 0%;
+    transition: opacity 2s ease-out;
 }
+
+.visible {
+    opacity: 100%;
+    visibility: visible;
+}
+
 
