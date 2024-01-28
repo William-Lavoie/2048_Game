@@ -41,7 +41,7 @@ function addNewCell() {
 
         // Maps the position in the 2d array to a position in the 1d array in a unique way
         randomCell = $(cellsArray[randomRow*4 + randomColumn]);
-    } while (grid[randomRow][randomColumn] !== "");
+    } while (grid[randomRow][randomColumn] != "");
 
     // Adds either 2 or 4 into the cell and the grid
     let newValue = (Math.round((Math.random()))+1) * 2;
@@ -69,7 +69,7 @@ function leftShift() {
 
     // Loops through the grid 
     for (let i = 0; i < grid.length; i++) {
-        for (let j = 1; j < grid.length; j++) {
+        for (let j = 0; j < grid.length; j++) {
 
             // Checks if there is a value 
             if (grid[i][j] != "") {
@@ -88,18 +88,17 @@ function leftShift() {
                 grid[i][jValue] = "";
                 grid[i][j] = cellValue;
 
-                let cell = $(cellsArray[i*4 + jValue]);
-                let cellChild = $(cell.children());
 
-                let currentRight = parseInt(cellChild.css("right"));
+                let oldCell = $(cellsArray[i*4 + jValue]);
+                let newCell = $(cellsArray[i*4 + j]);
 
-                if (isNaN(currentRight)) {
-                    currentRight = 0;
-                }
+                let cellChild = $(oldCell).children().first();
+                newCell.append(cellChild);
+                j = jValue;
 
-                cellChild.css({"right": currentRight + shiftValue*91 + "px"});
             }
-        }
+
+        } 
     }
 
     addNewCell();
@@ -128,10 +127,6 @@ $("#new-game").on("click", function() {
 
     addNewCell();
     addNewCell();
-    leftShift();
-    leftShift();
-
-
 })
 
 $(document).on("keydown", function(event) {
@@ -144,6 +139,7 @@ $(document).on("keydown", function(event) {
             break;
         case UP_ARROW:
              console.log("up");
+             addNewCell();
             break;
         case DOWN_ARROW:
             console.log("down");
