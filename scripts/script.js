@@ -28,8 +28,12 @@ $(document).ready(function() {
     let cellsArray = $("#grid-game").children();
 
 
+/**
+ * Adds a new cell with either 2 or 4 at a random location on the grid
+ */
 function addNewCell() {
     
+    // Initialises the JQuery cell as well as the position of the cell in the array grid
     let randomCell; 
     let randomRow;
     let randomColumn;
@@ -59,6 +63,7 @@ function addNewCell() {
         element.css({"background-color": "lightblue"});
     }
 
+    // Adds the element in the cell and gives it a transition
     randomCell.append(element);
     element.addClass("visible");
 
@@ -67,58 +72,10 @@ function addNewCell() {
     grid[randomRow][randomColumn] = newValue;
 }
 
-/*
-function lateralShift(direction) {
 
-    let shift = 0;
-
-    if (direction == "right") {
-        shift = 1;
-    }
-
-    else {
-        shift = -1;
-    }
-
-    // Loops through the grid 
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid.length; j++) {
-
-            // Checks if there is a value 
-            if (grid[i][j] != "") {
-
-                let shiftValue = 0;
-                let jValue = j;
-
-                while (grid[i][j + shift] == "") {
-                    shiftValue++;
-                    j += shift;
-                }
-
-                let cellValue = grid[i][jValue];
-
-                // Empties the current cell and inserts its value into the new position
-                grid[i][jValue] = "";
-                grid[i][j] = cellValue;
-
-
-                let oldCell = $(cellsArray[i*4 + jValue]);
-                let newCell = $(cellsArray[i*4 + j]);
-
-                let cellChild = $(oldCell).children().first();
-                newCell.append(cellChild);
-                j = jValue;
-
-            }
-
-        } 
-    }
-
-    addNewCell();
-}
-
-*/
-
+/**
+ * Creates a new game by emptying the grid and adding two initial values
+ */
 $("#new-game").on("click", function() {
 
     // Empties the grid 
@@ -139,12 +96,15 @@ $("#new-game").on("click", function() {
         grid[i] = gridRow;
     }
 
+    // Adds two random cells
     addNewCell();
     addNewCell();
 })
 
+// Moves all the cells in the direction chosen by the user 
 $(document).on("keydown", function(event) {
 
+    // 
     let lateralShift = 0;
     let verticalShift = 0;
 
