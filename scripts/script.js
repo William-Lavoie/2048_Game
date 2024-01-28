@@ -119,6 +119,10 @@ function sumCells(number) {
             return "pink";
         case 128: 
             return "black";
+        case 256:
+            return "indigo"
+        case 512:
+            return "blue"
     }
 }
 
