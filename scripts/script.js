@@ -101,6 +101,27 @@ $("#new-game").on("click", function() {
     addNewCell();
 })
 
+// Returns the colour corresponding to the new value of the cell
+function sumCells(number) {
+
+    switch (number) {
+        case 2:
+            return "lightblue";
+        case 4:
+            return "red";
+        case 8: 
+            return "green";
+        case 16: 
+            return "yellow";
+        case 32:
+            return "purple";
+        case 64:
+            return "pink";
+        case 128: 
+            return "black";
+    }
+}
+
 // Moves all the cells in the direction chosen by the user 
 $(document).on("keydown", function(event) {
 
@@ -150,17 +171,37 @@ $(document).on("keydown", function(event) {
 
                 // Empties the current cell and inserts its value into the new position
                 grid[iValue][jValue] = "";
-                grid[i][j] = cellValue;
 
+                let newColor = "";
+                // Checks if the adjacent cell as the same value as the chosen one 
+                if (i + verticalShift >= 0 && j + lateralShift >= 0  
+                    && i + verticalShift < grid.length && j + lateralShift < grid.length
+                    && grid[i + verticalShift][j + lateralShift] == cellValue) {
+                    
+                    newColor = sumCells(cellValue);
 
-                let oldCell = $(cellsArray[iValue*4 + jValue]);
-                let newCell = $(cellsArray[i*4 + j]);
+                    let oldCell = $(cellsArray[iValue*4 + jValue]).children().first();
+                    oldCell.remove();
 
-                let cellChild = $(oldCell).children().first();
-                newCell.append(cellChild);
+                    let sumCell = $(cellsArray[(i + verticalShift)*4 + (j + lateralShift)]).children().first();
+                    sumCell.css({"background-color": newColor});
+                    sumCell.text(cellValue*2);
+                    grid[i + verticalShift][j + lateralShift] = cellValue*2;
+                }
+
+                else {
+
+                    grid[i][j] = cellValue;
+
+                    let oldCell = $(cellsArray[iValue*4 + jValue]);
+                    let newCell = $(cellsArray[i*4 + j]);
+
+                    let cellChild = $(oldCell).children().first();
+                    newCell.append(cellChild);
+                }
+
                 j = jValue;
                 i= iValue;
-
             }
 
         } 
