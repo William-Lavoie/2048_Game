@@ -47,6 +47,7 @@ function addNewCell() {
         randomCell = $(cellsArray[randomRow*4 + randomColumn]);
     } while (grid[randomRow][randomColumn] != "");
 
+
     // Adds either 2 or 4 into the cell and the grid
     let newValue = (Math.round((Math.random()))+1) * 2;
 
@@ -182,6 +183,7 @@ $(document).on("keydown", function(event) {
                     && i + verticalShift < grid.length && j + lateralShift < grid.length
                     && grid[i + verticalShift][j + lateralShift] == cellValue) {
                     
+                      
                     newColor = sumCells(cellValue);
 
                     let oldCell = $(cellsArray[iValue*4 + jValue]).children().first();
@@ -191,6 +193,11 @@ $(document).on("keydown", function(event) {
                     sumCell.css({"background-color": newColor});
                     sumCell.text(cellValue*2);
                     grid[i + verticalShift][j + lateralShift] = cellValue*2;
+
+                    if (cellValue*2 == 2048) {
+                        alert("Félicitations! Vous avez gagné");
+                        return;
+                    }
                 }
 
                 else {
@@ -207,12 +214,30 @@ $(document).on("keydown", function(event) {
                 j = jValue;
                 i= iValue;
             }
-
         } 
     }
 
-    addNewCell();
+    let gameIsOver = true;
 
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid.length; j++) {
+
+            // Checks if a new cell can be added 
+            if (grid[i][j] != "") {
+
+                 gameIsOver = false;
+                 break;
+            }
+        }
+    }
+
+    if (gameIsOver) {
+        alert("Vous avez perdu!")
+    }
+
+    else {
+        addNewCell();
+    }
 
 })
 })
